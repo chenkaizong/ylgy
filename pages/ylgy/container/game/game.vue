@@ -12,7 +12,7 @@
 			:key="index"
 			:num="item.num"
 			:ref="'item'+index"
-			:istop="item.istop"
+			:isTop="item.isTop"
 			@click.native="pick(index)"
 			:style="item.style">
 			</item>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import Item from "../m-item/m-item.vue"
+	import Item from "../item/item.vue"
 	import Func from "../../func.js"
 	
 	export default {
@@ -84,7 +84,7 @@
 					if(typeof(val)!='undefined'){
 						check_stack[val] = check_stack[val]?check_stack[val]+1:1
 						if(check_stack[val] >= 4 && !this.list[val].top){
-							this.$set(this.list[val],'istop',true)
+							this.$set(this.list[val],'isTop',true)
 						}
 					}
 					
@@ -101,7 +101,7 @@
 			},
 			
 			pick(index){
-				if(this.list[index].isclicked || !this.list[index].istop){
+				if(this.list[index].isclicked || !this.list[index].isTop){
 					return false
 				}
 				this.list[index].isUsed = true

@@ -55,7 +55,7 @@ export const gameMap = (name,level=1,map)=>{
 			let index = arr.length
 			let level_index = i;
 			
-			arr.push({index,num,level:level_index,style:{left,top},istop:false,isclicked:false,isUsed:false})
+			arr.push({index,num,level:level_index,style:{left,top},isTop:false,isclicked:false,isUsed:false})
 			
 			view_stack[x+'_'+y] = array_unshift(view_stack[x+'_'+y],index)
 			view_stack[(x+1)+'_'+y] = array_unshift(view_stack[(x+1)+'_'+y],index)

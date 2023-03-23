@@ -6,39 +6,3 @@ text {
 	box-sizing: border-box;
 }
 
-.m-item.istop{
-	background-color: palegreen;
-}
-
-.m-item{
-	position: absolute;
-	width: 92rpx;
-	height: 92rpx;
-	box-sizing: border-box;
-	background-color: lightseagreen;
-	transition: 1s;
-	text-align: center;
-	line-height: 92rpx;
-	
-	.pic{
-		font-size: 52rpx;
-	}
-	
-	.destroy{
-		z-index:1;
-		position:absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		font-size: 52rpx;
-		transition: .5s;
-		background-color: white;
-	}
-	.destroyAnimation{
-		width: 100%;
-		height: 100%;
-		font-size: 100rpx;
-	}
-	
-}
