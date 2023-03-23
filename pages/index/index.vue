@@ -2,7 +2,7 @@
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
 		<view class="action-area">
-			<u-button type="primary" @click="$navTo('/pages/game/game')">游戏开始</u-button>
+			<u-button type="primary" @click="$navTo('/pages/ylgy/ylgy')">游戏开始</u-button>
 		</view>
 	</view>
 </template>

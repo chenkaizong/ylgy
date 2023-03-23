@@ -20,7 +20,7 @@
 <script>
 	export default {
 		props:{
-			setLevel:String
+			setLevel:Number
 		},
 		data() {
 		  return {
@@ -30,7 +30,7 @@
 		  }
 		},
 		created() {
-			this.level = this.setLevel
+			this.level = this.setLevel ? this.setLevel : 2
 		},
 		methods: {
 		  open() {

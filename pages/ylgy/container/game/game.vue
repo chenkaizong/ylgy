@@ -1,8 +1,5 @@
 <template>
 	<view class="">
-		<view class="header">
-			<view class="iconfont icon-personal_icon_set_up" @click="$refs.setUp.open()"> </view>
-		</view>
 		<view class="unSelectedBox">
 			<view class="backgroundBox">
 				<view v-for="list_num in 16" class="backgroundList" :key="list_num">
@@ -11,29 +8,35 @@
 					</view>
 				</view>
 			</view>
-			<m-item v-for="(item,index) in  list" 
+			<item v-for="(item,index) in  list" 
 			:key="index"
 			:num="item.num"
 			:ref="'item'+index"
 			:istop="item.istop"
 			@click.native="pick(index)"
 			:style="item.style">
-			</m-item>
+			</item>
 		</view>
 		<view class="selectedBar">
 			
 		</view>
-		
-		<success-simple ref="setUp" :setLevel="options.level"></success-simple>
 	</view>
 </template>
 
 <script>
-	import SuccessSimple from './success-simple.vue'
+	import Item from "../m-item/m-item.vue"
+	import Func from "../../func.js"
 	
 	export default {
+		props:{
+			params:{
+				type:Object,
+				default:{level:1,map:[]},
+			}
+			
+		},
 		components:{
-			SuccessSimple
+			Item
 		},
 		data() {
 			return {
@@ -42,34 +45,23 @@
 				bottomStyles:[],
 				bottoms:[],
 				isFinished:false,
-				options:{},
 			}
 		},
 		beforeMount() {
-			this.initList();
+			this.initList(this.params.level,this.params.map);
 			this.initBottom();
 		},
-		onLoad(options) {
-			this.options = options
-		},
+
 		mounted() {
 			
-			// this.next()
-			// this.$refs['successSimple'].open()
+
 			
 		},
 		methods: {
-			initList(){
-				let res = {}
-				if(this.options.level){
-					res = this.$util.gameMap('number',this.options.level)
-				}else{
-					res = this.$util.gameMap()
-				}
-				
+			initList(level,map){
+				let res = Func.gameMap('number',level,map)
 				this.list = res.list
 				this.view_stack = res.view_stack
-				
 				this.checkViewStack()
 				
 			},
@@ -160,7 +152,7 @@
 							console.log(finish);
 							if(finish){
 								this.isFinished = finish
-								this.next()
+								this.$emit("success")
 							}
 							
 						}
@@ -199,21 +191,14 @@
 				this.list[index].isclicked = true
 				return pos
 			},
-			// 下一次游戏
-			next(){
-				
-				if(!this.options.level){
-					this.$navTo('/pages/game/game?level=9')
-					
-				}else{
-					this.$util.alert('恭喜通关')
-				}
-			},
+
+
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+
 	.unSelectedBox{
 		width: 736rpx;
 		height: 736rpx;
@@ -251,8 +236,4 @@
 		}
 	}
 
-	.iconfont{
-		margin: 20rpx;
-		font-size: 60rpx;
-	}
 </style>
