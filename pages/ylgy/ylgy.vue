@@ -73,6 +73,7 @@
 </script>
 
 <style scoped lang="scss">
+	@import "./ylgy.scss";
 	.header{
 		display: flex;
 		justify-content: space-between;

@@ -7,8 +7,6 @@
 		<view class="pic">
 			<image :class="picClass" src="@/static/ylgy/item.png" ></image>
 		</view>
-		<div v-if="isUnder" class="isUnder"></div>
-
 	</view>
 	
 </template>
@@ -51,28 +49,42 @@
 			if(!itemClass){
 				console.log("找不到图片")
 			}
-			this.picClass = ["item-png",itemClass]
 			
 			if(this.isUnder){
 				this.backgroundClass = ["item-png","isUnder"]
+				this.picClass = ["item-png",itemClass,"isUnder"]
+			}else{
+				this.picClass = ["item-png",itemClass]
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	@import "../../ylgy.scss";
 	@function size($num){
-		@return $num*0.75
+		@return $num*0.82
+	}
+	
+	
+	.item{
+		position: relative;
+		width: $ylgy-item-width;
+		height: $ylgy-item-width;
+		// border: 1px solid black;
+		padding: 0;
+		margin: 0;
+		
 	}
 	
 	.item-png{
-		height: size(1011rpx);
-		width: size(1011rpx);
+		height: size(101.1vw);
+		width: size(101.7vw);
 	}
 
 	.background{
-		width: size(128rpx);
-		height: size(140rpx);
+		width: size(12.8vw);
+		height: size(14.0vw);
 		overflow: hidden;
 		position: absolute;
 		top: 0;
@@ -83,83 +95,88 @@
 			// display: none;
 		}
 		.isUnder{
-			top: size(-140rpx);
-			left: size(4rpx);
+			filter: brightness(0.5);
+			
 		}
 	}
 	
 	.pic{
-		width: size(108rpx);
-		height: size(108rpx);
+		width: size(10.8vw);
+		height: size(10.8vw);
 		overflow: hidden;
 		position: absolute;
-		top: size(6rpx);
-		left: size(8rpx);
+		top: size(0.5vw);
+		left: size(0.6vw);
+		
+		.isUnder{
+			filter: brightness(0.5);
+			opacity: 0.5;
+		}
 		
 		.item-scissors{
-			top: size(-138rpx);
-			left: size(-122rpx);
+			top: size(-13.6vw);
+			left: size(-12.2vw);
 		}
 		
 		.item-tree{
-			top: size(4rpx);
-			left: size(-126rpx);
+			top: size(0.4vw);
+			left: size(-12.6vw);
 		}
 		
 		.item-map{
-			top: size(4rpx);
-			left: size(-232rpx);
+			top: size(0.4vw);
+			left: size(-23.2vw);
 		}
 		
 		.item-rabbit{
-			top: size(8rpx);
-			left: size(-340rpx);
+			top: size(0.5vw);
+			left: size(-34.0vw);
 		}
 		
 		.item-tweezers{
-			top: size(8rpx);
-			left: size(-446rpx);
+			top: size(0.6vw);
+			left: size(-44.6vw);
 		}
 		
 		.item-biscuit{
-			top: size(-278rpx);
-			left: size(-104rpx);
+			top: size(-27.8vw);
+			left: size(-10.4vw);
 		}
 		
 		.item-claw{
-			top: size(-278rpx);
-			left: size(0rpx);
+			top: size(-27.8vw);
+			left: size(0vw);
 		}
 		
 		.item-chestnut{
-			top: size(8rpx);
-			left: size(-656rpx);
+			top: size(0.08vw);
+			left: size(-65.6vw);
 		}
 		
 		.item-xie{
-			top: size(-392rpx);
-			left: size(0rpx);
+			top: size(-39.2vw);
+			left: size(0vw);
 		}
 		
 		.item-flower{
-			top: size(-500rpx);
-			left: size(0rpx);
+			top: size(-50.0vw);
+			left: size(0vw);
 		}
 		
 		.item-amulet{
-			top: size(-500rpx);
-			left: size(-106rpx);
+			top: size(-50.0vw);
+			left: size(-10.6vw);
 		}
 	
 		.item-rose{
-			top: size(-719rpx);
-			left: size(-219rpx);
+			top: size(-71.9vw);
+			left: size(-21.9vw);
 		}
 		
 		.item-tall-hat{
 			position: relative;
-			top: size(-609rpx);
-			left: size(-209rpx);
+			top: size(-60.6vw);
+			left: size(-20.9vw);
 		}
 	
 	}

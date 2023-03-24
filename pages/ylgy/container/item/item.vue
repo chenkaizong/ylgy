@@ -39,24 +39,16 @@
 </script>
 
 <style scoped lang="scss">
-.m-item.isTop{
-	background-color: palegreen;
-}
 
 .m-item{
 	position: absolute;
-	width: 92rpx;
-	height: 92rpx;
+	width: 46rpx;
+	height: 46rpx;
 	box-sizing: border-box;
-	background-color: lightseagreen;
 	transition: 1s;
 	text-align: center;
-	line-height: 92rpx;
-	
-	.pic{
-		font-size: 52rpx;
-	}
-	
+	line-height: 46rpx;
+
 	.destroy{
 		z-index:1;
 		position:absolute;
@@ -64,14 +56,14 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		font-size: 52rpx;
+		font-size: 26rpx;
 		transition: .5s;
 		background-color: white;
 	}
 	.destroyAnimation{
 		width: 100%;
 		height: 100%;
-		font-size: 100rpx;
+		font-size: 50rpx;
 	}
 	
 }

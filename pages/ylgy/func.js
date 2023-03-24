@@ -1,3 +1,14 @@
+// 精度是 11，正好1/64，一个图片占用 8*8， 8个图片平铺占用整个地图
+export const ylgyOption ={
+	mapX:64,
+	mapY:64,
+	itemX:8,
+	precision:1.4, //一个点显示长度
+}
+ylgyOption.itemWidth = ylgyOption.itemX*ylgyOption.precision
+
+console.log(ylgyOption)
+
 function array_unshift(arr,val){
 	if(typeof(arr)=='undefined'){
 		return [val]
@@ -39,7 +50,18 @@ export const  randMap = (level) => {
 	
 }
 
-//地图16*16
+//已知视图堆栈，起止位置，插入堆栈,第index张图
+
+function unShiftViewStack(view_stack,pointX,pointY,index){
+	for(let x=0;x<4;x++){
+		for(let y=0;y<4;y++){
+			view_stack[(x+pointX)+'_'+(pointY+y)] = array_unshift(view_stack[(x+pointX)+'_'+(pointY+y)],index)
+		}
+	}
+	return view_stack;
+}
+
+//地图64*64
 export const gameMap = (name,level=1,map)=>{
 	
 	let arr=[]
@@ -50,17 +72,15 @@ export const gameMap = (name,level=1,map)=>{
 			let num = rand_arr.shift()
 			let x = map[i][j][0];
 			let y = map[i][j][1]
-			let left = x * 46 + 'rpx'
-			let top = y * 46 + 'rpx'
+			let left = x * ylgyOption.precision + 'vw'
+			let top = y * ylgyOption.precision + 'vw'
 			let index = arr.length
 			let level_index = i;
 			
 			arr.push({index,num,level:level_index,style:{left,top},isTop:false,isclicked:false,isUsed:false})
+
+			view_stack = unShiftViewStack(view_stack,x,y,index)
 			
-			view_stack[x+'_'+y] = array_unshift(view_stack[x+'_'+y],index)
-			view_stack[(x+1)+'_'+y] = array_unshift(view_stack[(x+1)+'_'+y],index)
-			view_stack[x+'_'+(y+1)] = array_unshift(view_stack[x+'_'+(y+1)],index)
-			view_stack[(x+1)+'_'+(y+1)] = array_unshift(view_stack[(x+1)+'_'+(y+1)],index)
 		}
 	}
 	
@@ -74,5 +94,6 @@ export const gameMap = (name,level=1,map)=>{
 
 export default {
 	randMap,
-	gameMap
+	gameMap,
+	ylgyOption
 }

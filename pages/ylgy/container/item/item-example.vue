@@ -1,9 +1,7 @@
 <template>
 	<view>
-		<Png :value="1"></Png>
-		<Png :value="3"></Png>
-		<Png :value="4"></Png>
-		<Png :value="7"></Png>
+		<Png :value="item" v-for="item in [0,1,2,3,4,5,6,7,8,9,10,11,12]"></Png>
+
 	</view>
 </template>
 
@@ -15,6 +13,4 @@
 </script>
 
 <style lang="scss" scoped>
-	
-	
 </style>

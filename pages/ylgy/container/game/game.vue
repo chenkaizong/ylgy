@@ -2,8 +2,8 @@
 	<view class="">
 		<view class="unSelectedBox">
 			<view class="backgroundBox">
-				<view v-for="list_num in 16" class="backgroundList" :key="list_num">
-					<view v-for="item_num in 16" class="backgroundItem" :key="item_num">
+				<view v-for="list_num in ylgyOption.mapX" class="backgroundList" :key="list_num">
+					<view v-for="item_num in ylgyOption.mapY" class="backgroundItem" :key="item_num">
 						
 					</view>
 				</view>
@@ -45,6 +45,7 @@
 				bottomStyles:[],
 				bottoms:[],
 				isFinished:false,
+				ylgyOption:Func.ylgyOption
 			}
 		},
 		beforeMount() {
@@ -62,6 +63,8 @@
 				let res = Func.gameMap('number',level,map)
 				this.list = res.list
 				this.view_stack = res.view_stack
+				
+				console.log(res)
 				this.checkViewStack()
 				
 			},
@@ -198,20 +201,18 @@
 </script>
 
 <style scoped lang="scss">
-
+	@import "../../ylgy.scss";
 	.unSelectedBox{
-		width: 736rpx;
-		height: 736rpx;
+		width: $ylgy-map-width;
+		height: $ylgy-map-width;
 		border: 1px solid black;
 		position: relative;
 		margin: 100rpx auto;
-		
-		
 	}
 	
 	.selectedBar{
-		height: 96rpx;
-		width: 736rpx;
+		height: $ylgy-item-width;
+		width: $ylgy-map-width;
 		border: 1px solid black;
 		margin: 0 auto;
 	}
@@ -223,15 +224,15 @@
 		
 		.backgroundList {
 			border-collapse: collapse;
-			height: 46rpx;
+			height: $ylgy-precision;
 			width: 100%;
 			display: flex;
 		}
 		
 		.backgroundItem {
 			border-collapse: collapse;
-			height: 46rpx;
-			width: 46rpx;
+			height: $ylgy-precision;
+			width: $ylgy-precision;
 			border: 1px solid #eee;
 		}
 	}
