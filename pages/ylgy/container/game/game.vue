@@ -81,17 +81,15 @@
 			
 			checkViewStack(){
 				let check_stack = {}
-				console.log(Object.keys(this.view_stack))
 				for(let i in this.view_stack){
-					// let val = this.view_stack[i][0]
-					
-					// if(typeof(val)!='undefined'){
-					// 	check_stack[val] = check_stack[val]?check_stack[val]+1:1
-					// 	if(check_stack[val] >= 16 && !this.list[val].isTop){
-					// 		console.log(val)
-					// 		this.$set(this.list[val],'isTop',true)
-					// 	}
-					// }
+					let val = this.view_stack[i][0]
+					if(typeof(val)!='undefined'){
+						check_stack[val] = check_stack[val]?check_stack[val]+1:1
+						if(check_stack[val] >= 64 && !this.list[val].isTop){
+							console.log(val)
+							this.$set(this.list[val],'isTop',true)
+						}
+					}
 				}
 			},
 			

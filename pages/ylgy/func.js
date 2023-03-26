@@ -52,8 +52,8 @@ export const  randMap = (level) => {
 //已知视图堆栈，起止位置，插入堆栈,第index张图
 
 function unShiftViewStack(view_stack,pointX,pointY,index){
-	for(let x=0;x<4;x++){
-		for(let y=0;y<4;y++){
+	for(let x=0;x<8;x++){
+		for(let y=0;y<8;y++){
 			view_stack[(x+pointX)+'_'+(pointY+y)] = array_unshift(view_stack[(x+pointX)+'_'+(pointY+y)],index)
 		}
 	}
