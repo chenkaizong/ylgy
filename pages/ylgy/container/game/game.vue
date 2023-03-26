@@ -81,26 +81,31 @@
 			
 			checkViewStack(){
 				let check_stack = {}
-				console.log(this.view_stack)
+				console.log(Object.keys(this.view_stack))
 				for(let i in this.view_stack){
-					let val = this.view_stack[i][0]
-					if(typeof(val)!='undefined'){
-						check_stack[val] = check_stack[val]?check_stack[val]+1:1
-						if(check_stack[val] >= 4 && !this.list[val].top){
-							this.$set(this.list[val],'isTop',true)
-						}
-					}
+					// let val = this.view_stack[i][0]
 					
+					// if(typeof(val)!='undefined'){
+					// 	check_stack[val] = check_stack[val]?check_stack[val]+1:1
+					// 	if(check_stack[val] >= 16 && !this.list[val].isTop){
+					// 		console.log(val)
+					// 		this.$set(this.list[val],'isTop',true)
+					// 	}
+					// }
 				}
-				console.log(check_stack);
 			},
+			
 			removeViewStack(index){
 				for(let i in this.view_stack){
 					if(index == this.view_stack[i][0]){
 						this.view_stack[i].shift()
+						if(this.view_stack[i].length==0){
+							delete this.view_stack[i]
+						}
 					}
 				}
 				this.checkViewStack()
+				console.log(JSON.stringify(this.view_stack))
 			},
 			
 			pick(index){
@@ -202,6 +207,7 @@
 
 <style scoped lang="scss">
 	@import "../../ylgy.scss";
+	
 	.unSelectedBox{
 		width: $ylgy-map-width;
 		height: $ylgy-map-width;

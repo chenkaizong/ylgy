@@ -47,7 +47,6 @@ export const  randMap = (level) => {
 		json[0].push([ Math.floor(Math.random()*15),Math.floor(Math.random()*15) ])
 	}
 	return json
-	
 }
 
 //已知视图堆栈，起止位置，插入堆栈,第index张图

@@ -39,32 +39,33 @@
 </script>
 
 <style scoped lang="scss">
-
-.m-item{
-	position: absolute;
-	width: 46rpx;
-	height: 46rpx;
-	box-sizing: border-box;
-	transition: 1s;
-	text-align: center;
-	line-height: 46rpx;
-
-	.destroy{
-		z-index:1;
-		position:absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		font-size: 26rpx;
-		transition: .5s;
-		background-color: white;
-	}
-	.destroyAnimation{
-		width: 100%;
-		height: 100%;
-		font-size: 50rpx;
-	}
+	@import "../../ylgy.scss";
 	
-}
+	.m-item{
+		position: absolute;
+		width: $ylgy-item-width;
+		height: $ylgy-item-width;
+		box-sizing: border-box;
+		transition: 1s;
+		text-align: center;
+		line-height: $ylgy-item-width;
+
+		.destroy{
+			z-index:1;
+			position:absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			font-size: 26rpx;
+			transition: .5s;
+			background-color: white;
+		}
+		.destroyAnimation{
+			width: 100%;
+			height: 100%;
+			font-size: 50rpx;
+		}
+		
+	}
 </style>

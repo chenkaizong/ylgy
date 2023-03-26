@@ -49,12 +49,24 @@
 			if(!itemClass){
 				console.log("找不到图片")
 			}
+			this.setClass()
 			
-			if(this.isUnder){
-				this.backgroundClass = ["item-png","isUnder"]
-				this.picClass = ["item-png",itemClass,"isUnder"]
-			}else{
-				this.picClass = ["item-png",itemClass]
+		},
+		watch:{
+			isUnder(val){
+				this.setClass()
+			}
+		},
+		methods:{
+			setClass(){
+				let itemClass = PICS[this.value]
+				if(this.isUnder){
+					this.backgroundClass = ["item-png","isUnder"]
+					this.picClass = ["item-png",itemClass,"isUnder"]
+				}else{
+					this.picClass = ["item-png",itemClass]
+					this.backgroundClass = ["item-png"]
+				}
 			}
 		}
 	}
@@ -73,7 +85,6 @@
 		height: $ylgy-item-width;
 		// border: 1px solid black;
 		padding: 0;
-		margin: 0;
 		
 	}
 	
@@ -89,6 +100,9 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
 		.item-png{
 			top: 0;
 			left: 0;
@@ -105,8 +119,11 @@
 		height: size(10.8vw);
 		overflow: hidden;
 		position: absolute;
-		top: size(0.5vw);
-		left: size(0.6vw);
+		top:0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
 		
 		.isUnder{
 			filter: brightness(0.5);
