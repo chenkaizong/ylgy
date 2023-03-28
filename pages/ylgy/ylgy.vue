@@ -77,6 +77,7 @@
 	.header{
 		display: flex;
 		justify-content: space-between;
+		height: 20vw;
 	}
 
 	.iconfont{

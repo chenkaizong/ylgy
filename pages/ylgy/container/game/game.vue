@@ -8,23 +8,29 @@
 					</view>
 				</view>
 			</view>
-			<item v-for="(item,index) in  list" 
+			<!-- <item v-for="(item,index) in  list" 
 			:key="index"
 			:num="item.num"
 			:ref="'item'+index"
 			:isTop="item.isTop"
 			@click.native="pick(index)"
 			:style="item.style">
-			</item>
+			</item> -->
 		</view>
-		<view class="selectedBar">
-			
+		<view class="bottom" :style="BottomStyle">
+			<view class="selectedBar">
+				
+			</view>
+			<Cheat @moveOut="" @moveBack="" @randMap=""></Cheat>
 		</view>
+		
+		
 	</view>
 </template>
 
 <script>
 	import Item from "../item/item.vue"
+	import Cheat from "./cheat.vue"
 	import Func from "../../func.js"
 	
 	export default {
@@ -36,16 +42,24 @@
 			
 		},
 		components:{
-			Item
+			Item,
+			Cheat,
 		},
 		data() {
 			return {
 				list:[],
 				view_stack:{},
-				bottomStyles:[],
-				bottoms:[],
+				// 选中的每个元素位置
+				SelectedStyles:[],
+				// 选中的index 列表
+				SelectedList:[],
+				
 				isFinished:false,
-				ylgyOption:Func.ylgyOption
+				ylgyOption:Func.ylgyOption,
+				// screenHeight屏幕高度， gameBottom 底部位置
+				distance:{screenHeight:170,gameBottom:150},
+				BottomStyle:{top:"150vw"}
+				
 			}
 		},
 		beforeMount() {
@@ -69,14 +83,21 @@
 				
 			},
 			initBottom(){
+				let screenHeight = this.$util.getHeight()
+				// 位置 = 屏幕高度-头部高度-游戏地图高度-地图margin - 底部高度
+				let gameBottom = screenHeight - 25
+				
+				this.distance = {screenHeight,gameBottom}
+				this.BottomStyle = {top:gameBottom+"vw"}
+				
 				let styles = []
 				for(let i=0;i<8;i++){
 					styles[i] = {
-						left:(92*i)+'rpx',
-						top:'836rpx'
+						left:(Func.ylgyOption.itemWidth*i)+'vw',
+						top:(this.distance.gameBottom + 1) +"vw"
 					}
 				}
-				this.bottomStyles = styles;
+				this.SelectedStyles = styles;
 			},
 			
 			checkViewStack(){
@@ -112,7 +133,7 @@
 				}
 				this.list[index].isUsed = true
 				
-				if(this.bottoms.length>=8){
+				if(this.SelectedList.length>=8){
 					this.$util.alert('失败')
 					return false
 				}
@@ -120,33 +141,31 @@
 				let pos = this.insertNum(index)
 				this.checkResult(pos)
 				
-				
-				
 			},
 			// 只需要验证它的前三个是相同的即可
 			checkResult(pos){
 				if(pos<2){
 					return false;
 				}
-				if(this.bottoms[pos].num==this.bottoms[pos-1].num && 
-				this.bottoms[pos].num == this.bottoms[pos-2].num
+				if(this.SelectedList[pos].num==this.SelectedList[pos-1].num && 
+				this.SelectedList[pos].num == this.SelectedList[pos-2].num
 				){
 					
-					let index0 = this.bottoms[pos]['index']
-					let index1 = this.bottoms[pos-1]['index']
-					let index2 = this.bottoms[pos-2]['index']
-					this.bottoms.splice(pos-2,3)
+					let index0 = this.SelectedList[pos]['index']
+					let index1 = this.SelectedList[pos-1]['index']
+					let index2 = this.SelectedList[pos-2]['index']
+					this.SelectedList.splice(pos-2,3)
 					setTimeout(()=>{
 						this.$refs['item'+index0][0].destroy()
 						this.$refs['item'+index1][0].destroy()
 						this.$refs['item'+index2][0].destroy()
 						
-						for(let i = 0;i<this.bottoms.length;i++){
-							this.$set(this.bottoms[i],'style',this.bottomStyles[i])
+						for(let i = 0;i<this.SelectedList.length;i++){
+							this.$set(this.SelectedList[i],'style',this.SelectedStyles[i])
 						}
 						
 						//为空的时候验证是否结束
-						if(!this.bottoms.length){
+						if(!this.SelectedList.length){
 							let finish = true;
 							for(let i=0;i<this.list.length;i++){
 								
@@ -171,29 +190,29 @@
 			//插入点击的方块，相同的放相邻位置
 			insertNum(index){
 				//首先查找最后的一个出现位置
-				let pos = this.bottoms.length;
-				let bottoms = []
-				this.bottoms.map((value,key)=>{
+				let pos = this.SelectedList.length;
+				let SelectedList = []
+				this.SelectedList.map((value,key)=>{
 					
 					if(value.num == this.list[index].num){
 						pos = key+1
 					}
 				})
-				for(let i=this.bottoms.length;i>=0;i--){
+				for(let i=this.SelectedList.length;i>=0;i--){
 					let move_index = i - 1;
 					if(move_index>=pos){
-						this.$set(this.bottoms[move_index],'style',this.bottomStyles[move_index+1])
-						bottoms[i] = this.bottoms[move_index]
+						this.$set(this.SelectedList[move_index],'style',this.SelectedStyles[move_index+1])
+						SelectedList[i] = this.SelectedList[move_index]
 					}
 					if(i == pos){
-						bottoms[pos] = this.list[index]
-						this.$set(this.list[index],'style',this.bottomStyles[pos])
+						SelectedList[pos] = this.list[index]
+						this.$set(this.list[index],'style',this.SelectedStyles[pos])
 					}else if(i < pos){
-						bottoms[i] = this.bottoms[i]
+						SelectedList[i] = this.SelectedList[i]
 					}
 				}
 				
-				this.bottoms = bottoms
+				this.SelectedList = SelectedList
 				this.list[index].isclicked = true
 				return pos
 			},
@@ -211,8 +230,17 @@
 		height: $ylgy-map-width;
 		border: 1px solid black;
 		position: relative;
-		margin: 100rpx auto;
+		margin: 20vw auto;
 	}
+	
+	.bottom {
+		position: fixed;
+		height: 25vw;
+		border: 1px solid black;
+		overflow: hidden;
+		width: 100%;
+	}
+	
 	
 	.selectedBar{
 		height: $ylgy-item-width;

@@ -330,3 +330,8 @@ export const  browser = (obj) => {
 		return versions;
 }
 
+// 假设宽度为100，获取高度
+export const getHeight = ()=>{
+	let info = uni.getWindowInfo()
+	return  Math.floor(info.screenHeight*100/info.screenWidth)
+}

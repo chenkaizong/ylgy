@@ -6,6 +6,7 @@ export const ylgyOption ={
 	precision:1.4, //一个点显示长度
 }
 ylgyOption.itemWidth = ylgyOption.itemX*ylgyOption.precision
+ylgyOption.mapWidth = ylgyOption.mapX*ylgyOption.precision
 
 console.log(ylgyOption)
 
