@@ -1,32 +1,35 @@
 <template>
 	<view class="cheat">
 		
+		<view>
+			<CheatButton></CheatButton>
+		</view>
 		<view class="item">
-			<view class="button">
-				<image src="@/static/ylgy/bottom.png" class="buttonPng"></image>
-			</view>
-			<view class="moveout">
-				<view class="pngBox">
-					<image src="@/static/ylgy/bottom.png" class="png"></image>
-				</view>
-			</view>
-		</view>
 			
+			<MoveOut></MoveOut>
+		</view>
 		
-		<view class="moveback">
-			<image src="@/static/ylgy/bottom.png" class="button"></image>
-			<image src="@/static/ylgy/bottom.png" class="png"></image>
+		<view class="item">
+			<MoveBack :width="10"></MoveBack>
 		</view>
-		<view class="randmap">
-			<image src="@/static/ylgy/bottom.png" class="button"></image>
-			<image src="@/static/ylgy/bottom.png" class="png"></image>
+
+		<view class="item">
+			<RandMap :width="10"></RandMap>
 		</view>
+		
+
 	</view>
 </template>
 
 <script>
+	import CheatButton from "../png/CheatButton.vue"
+	import MoveBack from "../png/MoveBack.vue"
+	import RandMap from "../png/RandMap.vue"
+	import MoveOut from "../png/MoveOut.vue"
+	
 	export default{
 		name:"cheat",
+		components:{MoveBack,RandMap,MoveOut,CheatButton},
 		props:{
 			
 		}
@@ -46,19 +49,28 @@
 		position: absolute;
 	}
 	
-	.button{
-		width: 20vw;
-		height: 10vw;
+	
+	
+	.item{
 		position: relative;
-		overflow: hidden;
-		.buttonPng{
-			width: 102.4vw;
-			height: 140.6vw;
-			transform: rotate(-90deg);
+		
+		.button{
+			width: 20vw;
+			height: 10vw;
 			position: absolute;
-			left: -10vw;
-			right: -10vw;
+			overflow: hidden;
+			left: 0;
+			top: 0;
+			.buttonPng{
+				width: 102.4vw;
+				height: 140.6vw;
+				transform: rotate(-90deg);
+				position: absolute;
+				left: -10vw;
+				right: -10vw;
+			}
 		}
+		
 	}
 	
 	.moveout{
@@ -79,18 +91,6 @@
 		}
 	}
 	
-	
-	.moveback {
-		width: 12.7vw;
-		height: 12.3vw;
-		overflow: hidden;
-		position: relative;
-		margin: 0 5vw;
-		.png {
-			left: -90vw;
-			top: -122vw;
-		}
-	}
 	
 	.randmap {
 		width: 12vw;
