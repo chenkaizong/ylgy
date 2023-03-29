@@ -26,7 +26,7 @@ export default {
 				width: this.real.width + "vw",
 				height: this.real.height + "vw",
 				overflow: "hidden",
-				position: "relative",
+				position: "absolute",
 			}
 		},
 		imageStyle(){

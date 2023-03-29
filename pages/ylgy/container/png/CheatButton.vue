@@ -1,7 +1,8 @@
 <template>
-	<view :style="boxStyle">
-		<image v-if="parentImage.width" src="@/static/ylgy/bottom.png" :style="imageStyle"></image>
-	</view>
+		<view :style="boxStyle">
+			<image v-if="parentImage.width" src="@/static/ylgy/bottom.png" :style="imageStyle"></image>
+		</view>
+	
 </template>
 
 <script>
@@ -20,9 +21,9 @@
 		mixins:[mixin],
 		data(){
 			return {
-				positionLeft: -63.5,
-				positionTop: -51,
-				pieceWidth: 12,
+				positionLeft: -101.5,
+				positionTop: -85,
+				pieceWidth: 16,
 				pieceHeight: 12.7,
 				scale:{width:1,height:1},
 				degree:-90,
