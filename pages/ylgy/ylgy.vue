@@ -1,22 +1,27 @@
 <template>
-	<view class="">
-		<view class="header">
-			<view class="iconfont icon-personal_icon_set_up" @click="$refs.setUp.open()"> </view>
-			
-			<view>
-				<u-button type="primary" @click="randMap">随机地图</u-button>
+	<view class="pageBox">
+		<GlassBackground></GlassBackground>
+		<view class="content">
+			<view class="header">
+				<view class="iconfont icon-personal_icon_set_up" @click="$refs.setUp.open()"> </view>
+				
+				<view>
+					<u-button type="primary" @click="randMap">随机地图</u-button>
+				</view>
+				<view>
+					<u-button type="primary" @click="randLevel">随机难度(当前{{params.level}})</u-button>
+				</view>
+				
 			</view>
-			<view>
-				<u-button type="primary" @click="randLevel">随机难度(当前{{params.level}})</u-button>
-			</view>
-			
+			<game :key="key" :params="params"  @success="onSuccess" @fail="onFail"  />
+			<success-simple ref="setUp" :setLevel="params.level"></success-simple>
 		</view>
-		<game :key="key" :params="params"  @success="onSuccess" @fail="onFail"  />
-		<success-simple ref="setUp" :setLevel="params.level"></success-simple>
+		
 	</view>
 </template>
 
 <script>
+	import GlassBackground from "./container/glass/glass.vue"
 	import SuccessSimple from './container/success-simple/success-simple.vue'
 	import Game from "./container/game/game.vue"
 	import Func from "./func.js"
@@ -25,6 +30,7 @@
 		components:{
 			SuccessSimple,
 			Game,
+			GlassBackground,
 		},
 		data() {
 			return {
@@ -74,6 +80,21 @@
 
 <style scoped lang="scss">
 	@import "./ylgy.scss";
+	.pageBox{
+		position: fixed;
+		height: 100%;
+		width: 100vw;
+		background-color: rgb(195,254,139);
+		
+	}
+	.content{
+		width: 100%;
+		height: 100%;
+		left: 0;
+		right: 0;
+		position: absolute;
+		z-index: 2;
+	}
 	.header{
 		display: flex;
 		justify-content: space-between;

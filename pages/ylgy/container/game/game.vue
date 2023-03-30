@@ -18,10 +18,11 @@
 			</item> -->
 		</view>
 		<view class="bottom" :style="BottomStyle">
+		<!-- 	<Fence></Fence>
 			<view class="selectedBar">
 				
 			</view>
-			<Cheat @moveOut="" @moveBack="" @randMap=""></Cheat>
+			<Cheat @onMoveOut="" @onMoveBack="" @onRandMap=""></Cheat> -->
 		</view>
 		
 		
@@ -31,6 +32,7 @@
 <script>
 	import Item from "../item/item.vue"
 	import Cheat from "./cheat.vue"
+	import Fence from "./fence.vue"
 	import Func from "../../func.js"
 	
 	export default {
@@ -44,6 +46,7 @@
 		components:{
 			Item,
 			Cheat,
+			Fence,
 		},
 		data() {
 			return {
@@ -58,7 +61,7 @@
 				ylgyOption:Func.ylgyOption,
 				// screenHeight屏幕高度， gameBottom 底部位置
 				distance:{screenHeight:170,gameBottom:150},
-				BottomStyle:{top:"150vw"}
+				BottomStyle:{top:"145vw"}
 				
 			}
 		},
@@ -85,7 +88,7 @@
 			initBottom(){
 				let screenHeight = this.$util.getHeight()
 				// 位置 = 屏幕高度-头部高度-游戏地图高度-地图margin - 底部高度
-				let gameBottom = screenHeight - 25
+				let gameBottom = screenHeight - 35
 				
 				this.distance = {screenHeight,gameBottom}
 				this.BottomStyle = {top:gameBottom+"vw"}
@@ -230,12 +233,12 @@
 		height: $ylgy-map-width;
 		border: 1px solid black;
 		position: relative;
-		margin: 20vw auto;
+		margin: 15vw auto;
 	}
 	
 	.bottom {
 		position: fixed;
-		height: 25vw;
+		height: 35vw;
 		border: 1px solid black;
 		overflow: hidden;
 		width: 100%;
@@ -246,7 +249,9 @@
 		height: $ylgy-item-width;
 		width: $ylgy-map-width;
 		border: 1px solid black;
-		margin: 0 auto;
+		margin: 3vw auto 7vw;
+		position: relative;
+		z-index: 10;
 	}
 	
 	.backgroundBox {
