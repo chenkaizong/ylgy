@@ -1,28 +1,26 @@
 <template>
-	<view class="">
-		<view class="unSelectedBox">
-			<view class="backgroundBox">
-				<view v-for="list_num in ylgyOption.mapX" class="backgroundList" :key="list_num">
-					<view v-for="item_num in ylgyOption.mapY" class="backgroundItem" :key="item_num">
-						
-					</view>
-				</view>
+	<view class="game">
+		<div class="middleBox">
+			<GamePointBackground></GamePointBackground>
+			<view class="unSelectedBox">
+			
+				<item v-for="(item,index) in  list" 
+				:key="index"
+				:num="item.num"
+				:ref="'item'+index"
+				:isTop="item.isTop"
+				@click.native="pick(index)"
+				:style="item.style">
+				
+				</item>
 			</view>
-			<!-- <item v-for="(item,index) in  list" 
-			:key="index"
-			:num="item.num"
-			:ref="'item'+index"
-			:isTop="item.isTop"
-			@click.native="pick(index)"
-			:style="item.style">
-			</item> -->
-		</view>
-		<view class="bottom" :style="BottomStyle">
-		<!-- 	<Fence></Fence>
+		</div>
+		<view class="bottom">
+			<Fence></Fence>
 			<view class="selectedBar">
 				
 			</view>
-			<Cheat @onMoveOut="" @onMoveBack="" @onRandMap=""></Cheat> -->
+			<Cheat @onMoveOut="onMoveOut" @onMoveBack="onMoveBack" @onRandMap="onRandMap"></Cheat>
 		</view>
 		
 		
@@ -33,6 +31,7 @@
 	import Item from "../item/item.vue"
 	import Cheat from "./cheat.vue"
 	import Fence from "./fence.vue"
+	import GamePointBackground from "./GamePointBackground.vue"
 	import Func from "../../func.js"
 	
 	export default {
@@ -47,35 +46,41 @@
 			Item,
 			Cheat,
 			Fence,
+			GamePointBackground,
 		},
 		data() {
 			return {
+				// 一维存放每张图片信息
 				list:[],
+				// 地图每个点的堆叠情况，用于计算图片是否被盖住
 				view_stack:{},
-				// 选中的每个元素位置
+				// 选中的每个元素的位置
 				SelectedStyles:[],
-				// 选中的index 列表
+				// 选中的图片的列表
 				SelectedList:[],
-				
+				// 是否结束
 				isFinished:false,
-				ylgyOption:Func.ylgyOption,
-				// screenHeight屏幕高度， gameBottom 底部位置
-				distance:{screenHeight:170,gameBottom:150},
-				BottomStyle:{top:"145vw"}
+				
+				// 最后一个点击的元素和位置
+				lastSelected:{},
+				// 使用金手指返回三个的位置
+				CheatStyles:[],
+				
+				
 				
 			}
 		},
 		beforeMount() {
 			this.initList(this.params.level,this.params.map);
-			this.initBottom();
+			this.initBottomStyles();
 		},
 
 		mounted() {
 			
-
 			
 		},
 		methods: {
+			//初始化
 			initList(level,map){
 				let res = Func.gameMap('number',level,map)
 				this.list = res.list
@@ -85,24 +90,34 @@
 				this.checkViewStack()
 				
 			},
-			initBottom(){
+			//计算好选中的图片该去的位置
+			initBottomStyles(){
 				let screenHeight = this.$util.getHeight()
 				// 位置 = 屏幕高度-头部高度-游戏地图高度-地图margin - 底部高度
-				let gameBottom = screenHeight - 35
-				
-				this.distance = {screenHeight,gameBottom}
-				this.BottomStyle = {top:gameBottom+"vw"}
+				let gameDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-29
 				
 				let styles = []
 				for(let i=0;i<8;i++){
 					styles[i] = {
 						left:(Func.ylgyOption.itemWidth*i)+'vw',
-						top:(this.distance.gameBottom + 1) +"vw"
+						top:gameDistance +"vw"
 					}
 				}
 				this.SelectedStyles = styles;
+				
+				// 金手指位置
+				let cheatDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-20
+				let cheatStyles = []
+				for(let i=0;i<3;i++){
+					cheatStyles[i] = {
+						left:(Func.ylgyOption.itemWidth*(i+1)*2)+'vw',
+						top:cheatDistance +"vw"
+					}
+				}
+				this.CheatStyles = cheatStyles;
+				
 			},
-			
+			// 计算堆叠情况
 			checkViewStack(){
 				let check_stack = {}
 				for(let i in this.view_stack){
@@ -116,7 +131,7 @@
 					}
 				}
 			},
-			
+			// 某个元素移除后堆叠情况修改
 			removeViewStack(index){
 				for(let i in this.view_stack){
 					if(index == this.view_stack[i][0]){
@@ -127,14 +142,14 @@
 					}
 				}
 				this.checkViewStack()
-				console.log(JSON.stringify(this.view_stack))
+				// console.log(JSON.stringify(this.view_stack))
 			},
 			
 			pick(index){
 				if(this.list[index].isclicked || !this.list[index].isTop){
 					return false
 				}
-				this.list[index].isUsed = true
+				this.lastSelected =this.$util.cloneDeep(this.list[index])
 				
 				if(this.SelectedList.length>=8){
 					this.$util.alert('失败')
@@ -172,7 +187,7 @@
 							let finish = true;
 							for(let i=0;i<this.list.length;i++){
 								
-								if(!this.list[i].isUsed){
+								if(!this.list[i].isclicked){
 									finish = false
 									break;
 								}
@@ -220,6 +235,93 @@
 				return pos
 			},
 
+			//移出三个到额外的位置
+			onMoveOut(){
+				if(this.SelectedList.length<3){
+					this.$util.alert("要满足三个哦")
+					return 
+				}
+				for(let i=2;i>=0;i--){
+					let item = this.SelectedList.pop();
+					this.$set(this.list[item.index],'style',this.CheatStyles[i])
+					Func.unShiftViewStack(this.view_stack,i*20,65,item["index"])
+					
+				}
+				
+				this.list.filter((item)=>{
+					return !item.isclicked && item.isTop
+				}).forEach((item)=>{
+					this.$set(this.list[item.index],"isTop",false)
+				})
+				this.checkViewStack()
+				
+			},
+			// 返回上一步点击
+			onMoveBack(){
+				// this.list[this.lastSelected["index"]] this.lastSelected;
+				if(this.lastSelected.index){
+					let pos = this.SelectedList.length-1
+					let SelectedList = []
+					this.SelectedList.forEach((item,index)=>{
+						if(item.index == this.lastSelected.index){
+							pos = index
+						}
+					})
+					for(let i=0;i<this.SelectedList.length;i++){
+						let move_index = i - 1;
+						if(i>pos){
+							this.$set(this.SelectedList[i],'style',this.SelectedStyles[move_index])
+							SelectedList[move_index] = this.SelectedList[i]
+						}else if(i < pos){
+							SelectedList[i] = this.SelectedList[i]
+						}
+					}
+					this.SelectedList = SelectedList
+					
+					
+					
+					this.$set(this.list,this.lastSelected["index"],this.lastSelected)
+					
+					Func.unShiftViewStack(this.view_stack,this.lastSelected.point.x,this.lastSelected.point.y,this.lastSelected["index"])
+					this.list.filter((item)=>{
+						return !item.isclicked && item.isTop
+					}).forEach((item)=>{
+						this.$set(this.list[item.index],"isTop",false)
+					})
+					this.checkViewStack()
+				}else{
+					this.$util.alert("没有可以退回的")
+				}
+				
+				
+			},
+			// 随机所有图片
+			onRandMap(){
+				let newInfoList = this.list.filter((item)=>{
+					return !item.isclicked
+				}).map((item)=>{
+					return {
+						style:item.style,
+						point:item.point
+					}
+				})
+				newInfoList = this.$util.shuffleArray(newInfoList)
+				this.view_stack = [];
+				this.list.forEach((item)=>{
+					if(!item.isclicked){
+						let info = newInfoList.pop()
+						item.style = info.style
+						item.point = info.point
+						item.isTop = false
+						Func.unShiftViewStack(this.view_stack,info.point.x,info.point.y,item.index)
+					}
+				})
+				
+				this.checkViewStack()
+				
+				return true;
+				
+			},
 
 		}
 	}
@@ -228,50 +330,46 @@
 <style scoped lang="scss">
 	@import "../../ylgy.scss";
 	
-	.unSelectedBox{
-		width: $ylgy-map-width;
-		height: $ylgy-map-width;
-		border: 1px solid black;
-		position: relative;
-		margin: 15vw auto;
-	}
-	
-	.bottom {
-		position: fixed;
-		height: 35vw;
-		border: 1px solid black;
-		overflow: hidden;
-		width: 100%;
-	}
-	
-	
-	.selectedBar{
-		height: $ylgy-item-width;
-		width: $ylgy-map-width;
-		border: 1px solid black;
-		margin: 3vw auto 7vw;
-		position: relative;
-		z-index: 10;
-	}
-	
-	.backgroundBox {
-		position: absolute;
-		width: 100%;
+	.game {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 		
-		.backgroundList {
-			border-collapse: collapse;
-			height: $ylgy-precision;
-			width: 100%;
+		.middleBox{
+			flex: 1;
 			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+			height: 100%;
+			
+			.unSelectedBox{
+				width: $ylgy-map-width;
+				height: $ylgy-map-width;
+				border: 1px solid black;
+				position: relative;
+				margin: auto;
+			}
 		}
 		
-		.backgroundItem {
-			border-collapse: collapse;
-			height: $ylgy-precision;
-			width: $ylgy-precision;
-			border: 1px solid #eee;
+		.bottom {
+			height: 45vw;
+			overflow: hidden;
+			width: 100%;
+			flex-shrink: 0;
+			
+			.selectedBar{
+				height: $ylgy-item-width;
+				width: $ylgy-map-width;
+				border: 1px solid black;
+				margin: 3vw auto 7vw;
+				position: relative;
+				z-index: 10;
+			}
+			
 		}
+		
 	}
 
 </style>

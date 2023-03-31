@@ -49,9 +49,10 @@
 					this.$util.alert('分享加次数')
 					this.moveOutCount++
 				}else if(this.moveOutCount==1){
-					console.log("使用次数")
-					this.$emit('onMoveOut')
-					this.moveOutCount++
+					console.log("使用次数")	
+					console.log(this.$emit('onMoveOut'),null,(res)=>{
+						res && this.moveOutCount++
+					})
 				}
 
 			},
@@ -61,8 +62,9 @@
 					this.moveBackCount++
 				}else if(this.moveBackCount==1){
 					console.log("使用次数")
-					this.$emit('onMoveOut')
-					this.moveBackCount++
+					console.log(this.$emit('onMoveBack'),null,(res)=>{
+						res && this.moveBackCount++
+					})
 				}
 			},
 			randMapHandle(){
@@ -71,8 +73,10 @@
 					this.randMapCount++
 				}else if(this.randMapCount==1){
 					console.log("使用次数")
-					this.$emit('onMoveOut')
-					this.randMapCount++
+					console.log(this.$emit('onRandMap'),null,(res)=>{
+						res && this.randMapCount++
+					})
+					
 				}
 			}
 		}

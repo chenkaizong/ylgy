@@ -52,7 +52,7 @@ export const  randMap = (level) => {
 
 //已知视图堆栈，起止位置，插入堆栈,第index张图
 
-function unShiftViewStack(view_stack,pointX,pointY,index){
+export const unShiftViewStack = (view_stack,pointX,pointY,index) =>{
 	for(let x=0;x<8;x++){
 		for(let y=0;y<8;y++){
 			view_stack[(x+pointX)+'_'+(pointY+y)] = array_unshift(view_stack[(x+pointX)+'_'+(pointY+y)],index)
@@ -77,7 +77,7 @@ export const gameMap = (name,level=1,map)=>{
 			let index = arr.length
 			let level_index = i;
 			
-			arr.push({index,num,level:level_index,style:{left,top},isTop:false,isclicked:false,isUsed:false})
+			arr.push({index,num,level:level_index,style:{left,top},isTop:false,isclicked:false,isUsed:false,point:{x,y}})
 
 			view_stack = unShiftViewStack(view_stack,x,y,index)
 			
@@ -95,5 +95,6 @@ export const gameMap = (name,level=1,map)=>{
 export default {
 	randMap,
 	gameMap,
-	ylgyOption
+	ylgyOption,
+	unShiftViewStack,
 }

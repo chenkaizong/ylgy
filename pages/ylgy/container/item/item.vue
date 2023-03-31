@@ -46,9 +46,10 @@
 		width: $ylgy-item-width;
 		height: $ylgy-item-width;
 		box-sizing: border-box;
-		transition: 1s;
+		transition: .8s;
 		text-align: center;
 		line-height: $ylgy-item-width;
+		z-index:100;
 
 		.destroy{
 			z-index:1;

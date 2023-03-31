@@ -14,8 +14,8 @@
 				
 			</view>
 			<game :key="key" :params="params"  @success="onSuccess" @fail="onFail"  />
-			<success-simple ref="setUp" :setLevel="params.level"></success-simple>
 		</view>
+		<success-simple ref="setUp" :setLevel="params.level"></success-simple>
 		
 	</view>
 </template>
@@ -94,11 +94,15 @@
 		right: 0;
 		position: absolute;
 		z-index: 2;
+		display: flex;
+		flex-direction: column;
 	}
 	.header{
 		display: flex;
 		justify-content: space-between;
 		height: 20vw;
+		flex-shrink:0;
+		// border:1px solid black;
 	}
 
 	.iconfont{
