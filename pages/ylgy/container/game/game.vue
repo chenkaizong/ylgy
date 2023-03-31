@@ -281,8 +281,10 @@
 					
 					
 					this.$set(this.list,this.lastSelected["index"],this.lastSelected)
+					this.lastSelected = {};
 					
 					Func.unShiftViewStack(this.view_stack,this.lastSelected.point.x,this.lastSelected.point.y,this.lastSelected["index"])
+					
 					this.list.filter((item)=>{
 						return !item.isclicked && item.isTop
 					}).forEach((item)=>{
@@ -293,7 +295,7 @@
 					this.$util.alert("没有可以退回的")
 				}
 				
-				
+				return true;
 			},
 			// 随机所有图片
 			onRandMap(){
