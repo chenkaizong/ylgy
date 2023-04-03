@@ -2,7 +2,7 @@
 	<view class="pageBox">
 		<GlassBackground></GlassBackground>
 		<view class="content">
-			<view class="header">
+			<!-- <view class="header">
 				<view class="iconfont icon-personal_icon_set_up" @click="$refs.setUp.open()"> </view>
 				
 				<view>
@@ -12,7 +12,7 @@
 					<u-button type="primary" @click="randLevel">随机难度(当前{{params.level}})</u-button>
 				</view>
 				
-			</view>
+			</view> -->
 			<game :key="key" :params="params"  @success="onSuccess" @fail="onFail"  />
 		</view>
 		<success-simple ref="setUp" :setLevel="params.level"></success-simple>

@@ -315,17 +315,17 @@
 					}
 				})
 				newInfoList = this.$util.shuffleArray(newInfoList)
-				this.view_stack = [];
+				let view_stack = [];
 				this.list.forEach((item)=>{
 					if(!item.isclicked){
 						let info = newInfoList.pop()
 						item.style = info.style
 						item.point = info.point
 						item.isTop = false
-						Func.unShiftViewStack(this.view_stack,info.point.x,info.point.y,item.index)
+						Func.unShiftViewStack(view_stack,info.point.x,info.point.y,item.index)
 					}
 				})
-				
+				this.view_stack = view_stack
 				this.checkViewStack()
 				
 				return true;
