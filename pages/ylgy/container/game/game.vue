@@ -1,7 +1,7 @@
 <template>
 	<view class="game">
 		<div class="middleBox">
-			<GamePointBackground></GamePointBackground>
+			<!-- <GamePointBackground></GamePointBackground> -->
 			<view class="unSelectedBox">
 			
 				<item v-for="(item,index) in  list" 
