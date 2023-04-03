@@ -2,7 +2,7 @@
 	<view class="fence">
 		<FenceColumn class="left"></FenceColumn>
 		<FenceColumn class="right"></FenceColumn>
-		<FenceRow class="bottom" width="80"></FenceRow>
+		<FenceRow class="bottom" :width="80"></FenceRow>
 		<view class="box">
 			<view class="innerbox">
 				

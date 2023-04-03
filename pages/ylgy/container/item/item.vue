@@ -1,5 +1,5 @@
 <template>
-	<view v-if="visible" class="m-item" :class="{isTop:isTop}">
+	<view v-if="visible" class="m-item" :class="{isTop:isTop}" :style="zIndexStyle">
 		<Png :value="num" :isUnder="!isTop"></Png>
 		<view v-if="destroyVisible" :class="{destroy:true,destroyAnimation:destroyAnimation}">X</view>
 	</view>
@@ -14,13 +14,22 @@
 			num:Number,
 			isDestroy:Boolean,
 			isTop:Boolean,
+			zIndex:Number,
 		},
 		data() {
 			return {
 				visible:true,
 				destroyVisible:false,
 				destroyAnimation:false,
+				zIndexStyle:{zIndex:100}
 			};
+		},
+		
+		watch:{
+			zIndex(val){
+				console.log(val)
+				this.zIndexStyle = {zIndex:val+100}
+			}
 		},
 
 		methods:{
@@ -49,7 +58,6 @@
 		transition: .8s;
 		text-align: center;
 		line-height: $ylgy-item-width;
-		z-index:100;
 
 		.destroy{
 			z-index:1;

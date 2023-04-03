@@ -63,7 +63,7 @@ export default {
 				top:this.positionTop * this.scale.height,
 			}
 			
-			console.log(this.real,this.scale);
+			// console.log(this.real,this.scale);
 			this.initParentImage()
 		},
 		

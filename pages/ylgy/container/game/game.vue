@@ -9,6 +9,7 @@
 				:num="item.num"
 				:ref="'item'+index"
 				:isTop="item.isTop"
+				:zIndex="item.zIndex"
 				@click.native="pick(index)"
 				:style="item.style">
 				
@@ -33,6 +34,7 @@
 	import Fence from "./fence.vue"
 	import GamePointBackground from "./GamePointBackground.vue"
 	import Func from "../../func.js"
+	import zIndex from "../../../../uni_modules/uview-ui/libs/config/zIndex"
 	
 	export default {
 		props:{
@@ -85,10 +87,8 @@
 				let res = Func.gameMap('number',level,map)
 				this.list = res.list
 				this.view_stack = res.view_stack
-				
-				console.log(res)
 				this.checkViewStack()
-				
+				// console.log(this.list)
 			},
 			//计算好选中的图片该去的位置
 			initBottomStyles(){
@@ -106,11 +106,11 @@
 				this.SelectedStyles = styles;
 				
 				// 金手指位置
-				let cheatDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-20
+				let cheatDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-45
 				let cheatStyles = []
 				for(let i=0;i<3;i++){
 					cheatStyles[i] = {
-						left:(Func.ylgyOption.itemWidth*(i+1)*2)+'vw',
+						left:(Func.ylgyOption.itemWidth*(i+1.3)*1.5)+'vw',
 						top:cheatDistance +"vw"
 					}
 				}
@@ -119,13 +119,14 @@
 			},
 			// 计算堆叠情况
 			checkViewStack(){
+				// console.log(JSON.stringify(this.view_stack));
 				let check_stack = {}
 				for(let i in this.view_stack){
 					let val = this.view_stack[i][0]
 					if(typeof(val)!='undefined'){
 						check_stack[val] = check_stack[val]?check_stack[val]+1:1
 						if(check_stack[val] >= 64 && !this.list[val].isTop){
-							console.log(val)
+							// console.log(val)
 							this.$set(this.list[val],'isTop',true)
 						}
 					}
@@ -149,7 +150,9 @@
 				if(this.list[index].isclicked || !this.list[index].isTop){
 					return false
 				}
-				this.lastSelected =this.$util.cloneDeep(this.list[index])
+				// console.log(JSON.stringify(this.list[index]))
+				this.lastSelected = this.$util.cloneDeep(this.list[index])
+				// console.log(JSON.stringify(this.list),JSON.stringify(this.lastSelected))
 				
 				if(this.SelectedList.length>=8){
 					this.$util.alert('失败')
@@ -236,29 +239,36 @@
 			},
 
 			//移出三个到额外的位置
-			onMoveOut(){
+			onMoveOut:function(){
+				console.log(Func)
 				if(this.SelectedList.length<3){
 					this.$util.alert("要满足三个哦")
 					return 
 				}
+				let  max = Func.maxZIndex(this.list);
 				for(let i=2;i>=0;i--){
 					let item = this.SelectedList.pop();
+					item.isclicked = false;
+					this.$set(this.list[item.index],'zIndex',max+i)
 					this.$set(this.list[item.index],'style',this.CheatStyles[i])
 					Func.unShiftViewStack(this.view_stack,i*20,65,item["index"])
 					
+					console.log(this.list[item.index])
 				}
 				
+				console.log(Func)
 				this.list.filter((item)=>{
 					return !item.isclicked && item.isTop
 				}).forEach((item)=>{
 					this.$set(this.list[item.index],"isTop",false)
 				})
+				
 				this.checkViewStack()
 				
 			},
 			// 返回上一步点击
 			onMoveBack(){
-				// this.list[this.lastSelected["index"]] this.lastSelected;
+				console.log(JSON.stringify(this.lastSelected))
 				if(this.lastSelected.index){
 					let pos = this.SelectedList.length-1
 					let SelectedList = []
@@ -281,14 +291,11 @@
 					
 					
 					this.$set(this.list,this.lastSelected["index"],this.lastSelected)
-					this.lastSelected = {};
 					
 					Func.unShiftViewStack(this.view_stack,this.lastSelected.point.x,this.lastSelected.point.y,this.lastSelected["index"])
-					
+					this.lastSelected = {};
 					this.list.filter((item)=>{
-						return !item.isclicked && item.isTop
-					}).forEach((item)=>{
-						this.$set(this.list[item.index],"isTop",false)
+						!item.isclicked && item.isTop && this.$set(this.list[item.index],"isTop",false)
 					})
 					this.checkViewStack()
 				}else{
@@ -304,7 +311,7 @@
 				}).map((item)=>{
 					return {
 						style:item.style,
-						point:item.point
+						point:item.point,
 					}
 				})
 				newInfoList = this.$util.shuffleArray(newInfoList)

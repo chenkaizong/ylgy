@@ -18,6 +18,16 @@ function array_unshift(arr,val){
 		return arr;
 	}
 }
+
+function array_push(arr,val){
+	if(typeof(arr)=='undefined'){
+		return [val]
+	}else{
+		arr.push(val)
+		return arr;
+	}
+}
+
 //随机要显示的方块
 function gameRand(json,level){
 	let count=0;
@@ -61,6 +71,16 @@ export const unShiftViewStack = (view_stack,pointX,pointY,index) =>{
 	return view_stack;
 }
 
+export const pushViewStack = (view_stack,pointX,pointY,index) =>{
+	for(let x=0;x<8;x++){
+		for(let y=0;y<8;y++){
+			view_stack[(x+pointX)+'_'+(pointY+y)] = array_push(view_stack[(x+pointX)+'_'+(pointY+y)],index)
+		}
+	}
+	return view_stack;
+}
+
+
 //地图64*64
 export const gameMap = (name,level=1,map)=>{
 	
@@ -77,7 +97,17 @@ export const gameMap = (name,level=1,map)=>{
 			let index = arr.length
 			let level_index = i;
 			
-			arr.push({index,num,level:level_index,style:{left,top},isTop:false,isclicked:false,isUsed:false,point:{x,y}})
+			arr.push({
+				index,
+				num,
+				level:level_index,
+				style:{left,top},
+				isTop:false,
+				isclicked:false,
+				isUsed:false,
+				point:{x,y},
+				zIndex:index,
+				})
 
 			view_stack = unShiftViewStack(view_stack,x,y,index)
 			
@@ -85,11 +115,20 @@ export const gameMap = (name,level=1,map)=>{
 	}
 	
 	
-	
+	// console.log(arr)
 	return {
 		list:arr,
 		view_stack
 	}
+}
+
+//返回最高zIndex
+export const maxZIndex = (list)=>{
+	let max = list.length;
+	list.forEach((item)=>{
+		max= item.zIndex>max? item.zIndex :max
+	})
+	return max+1
 }
 
 export default {
@@ -97,4 +136,6 @@ export default {
 	gameMap,
 	ylgyOption,
 	unShiftViewStack,
+	pushViewStack,
+	maxZIndex
 }
