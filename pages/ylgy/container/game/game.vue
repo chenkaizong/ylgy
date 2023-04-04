@@ -94,7 +94,7 @@
 			initBottomStyles(){
 				let screenHeight = this.$util.getHeight()
 				// 位置 = 屏幕高度-头部高度-游戏地图高度-地图margin - 底部高度
-				let gameDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-29
+				let gameDistance =screenHeight/2+Func.ylgyOption.mapWidth/2-20
 				
 				let styles = []
 				for(let i=0;i<8;i++){
@@ -356,7 +356,7 @@
 			.unSelectedBox{
 				width: $ylgy-map-width;
 				height: $ylgy-map-width;
-				border: 1px solid black;
+				// border: 1px solid black;
 				position: relative;
 				margin: auto;
 			}
@@ -371,7 +371,7 @@
 			.selectedBar{
 				height: $ylgy-item-width;
 				width: $ylgy-map-width;
-				border: 1px solid black;
+				// border: 1px solid black;
 				margin: 3vw auto 7vw;
 				position: relative;
 				z-index: 10;
