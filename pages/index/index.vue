@@ -4,47 +4,53 @@
 		<view class="action-area">
 			<u-button type="primary" @click="$navTo('/pages/ylgy/ylgy')">游戏开始</u-button>
 		</view>
+		<view class="preload" v-if="game">
+			<PreLoadingImg name="game"></PreLoadingImg>
+		</view>
 	</view>
 </template>
 
 <script>
+	import PreLoadingImg from "./preLoadImg/preLoadImg.vue"
 	export default {
+		components:{PreLoadingImg},
 		data() {
 			return {
-				title: 'Hello'
+				game:"ylgy"
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+			
 		}
 	}
 </script>
 
-<style>
+<style scoped lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-around;
+		height: 100%;
 	}
 
 	.logo {
 		height: 200rpx;
 		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
 	}
 
 	.action-area {
 		display: flex;
 		justify-content: center;
-		position: fixed;
-		bottom: 200rpx;
+	}
+	
+	.preload{
+		height: 30rpx;
+		width: 300rpx;
+		border: 1px solid black;
 	}
 
 </style>
