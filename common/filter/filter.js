@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import {
-	date
+	date,
+	getImageCache
 } from '@/common/js/util'
 import env from '@/env/env'
 import store from '@/store'
@@ -34,5 +35,11 @@ Vue.filter('numberHideFormat', (value, start = 1, end = 1) => {
 })
 
 Vue.filter('static_url', (value) => {
-	return env.VUE_APP_STATIC_URL + value;
+	let url = env.VUE_APP_STATIC_URL + value;
+	// #ifdef APP-PLUS
+		return getImageCache(url)
+	// #endif
+	
+	return url
+	
 })

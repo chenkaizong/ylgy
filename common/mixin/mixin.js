@@ -55,7 +55,7 @@ export default {
 				uni.navigateTo({
 					url,
 					animationType:'slide-in-right',
-					animationDuration:2000,
+					animationDuration:200,
 				});
 			}
 		},

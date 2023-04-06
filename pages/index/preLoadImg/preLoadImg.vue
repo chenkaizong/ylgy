@@ -28,14 +28,20 @@
 		    preloadImages(imageUrls) {
 		      const promises = imageUrls.map(url => {
 		        return new Promise((resolve, reject) => {
-		          const img = new Image();
-		          img.onload = () => {
-					  this.percentage = Math.floor(this.percentage+100/imageUrls.length)
-					  
-					  resolve()
-					};
-		          img.onerror = () => reject();
-		          img.src =  env.VUE_APP_STATIC_URL + url;
+					// #ifdef APP-PLUS
+					this.$util.getImageCache(env.VUE_APP_STATIC_URL + url,resolve,reject)
+					// #endif
+					// #ifdef H5
+					uni.getImageInfo({
+						src:env.VUE_APP_STATIC_URL + url,
+						success:()=>{
+							this.percentage = Math.floor(this.percentage+100/imageUrls.length)
+							resolve()
+						},
+						fail:()=>reject()
+					})
+					// #endif
+
 		        });
 		      });
 		
@@ -47,7 +53,8 @@
 				  },500)
 				  
 		        })
-		        .catch(() => {
+		        .catch((e) => {
+				  console.log(e)
 		          console.error("Error occurred while loading images");
 		        });
 		    }

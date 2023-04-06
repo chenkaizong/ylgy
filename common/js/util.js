@@ -307,9 +307,13 @@ export const  browser = (obj) => {
 		return versions;
 }
 
-// 假设宽度为100，获取高度
+// 假设宽度为100，获取高度, app的导航需要算进去
 export const getHeight = ()=>{
 	let info = uni.getWindowInfo()
+	// #ifdef APP-PLUS
+	return Math.floor((info.screenHeight-info.statusBarHeight-44)*100/info.screenWidth)
+	// #endif
+
 	return  Math.floor(info.screenHeight*100/info.screenWidth)
 }
 
@@ -321,4 +325,52 @@ export function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+}
+
+
+
+export const getImageCache = function(filePath,resolve=()=>{},reject = () =>{}) {
+	// 图片缓存key值
+	let storageKey = 'IMAGE_CACHE_INFO_' + filePath
+	// 首先获取本地存储的数据，查询是否有对应文件路径，如果有缓存内容，直接返回
+	const cacheFileInfo = uni.getStorageSync(storageKey)
+	if (cacheFileInfo) {
+		// console.log("已缓存为：" + cacheFileInfo)
+		resolve()
+		return cacheFileInfo
+	} else {
+		console.log("未缓存,进行下载保存")
+		// 如果没有，执行下载，并存储起来后
+		uni.downloadFile({
+		    url: filePath,
+		    success: (res) => {
+				// console.log(res)
+		        if (res.statusCode === 200) {
+		            // console.log('下载成功');
+					// 再进行本地保存
+					uni.saveFile({
+					      tempFilePath: res.tempFilePath,
+					      success: function (res2) {
+							  console.log(res2.savedFilePath)
+							  uni.setStorageSync(storageKey, res2.savedFilePath)
+							  return res2.savedFilePath
+					      },
+						  fail: function (res2) {
+						  	return filePath
+						  }
+					    })
+					resolve()
+		        } else {
+					console.log('下载临时文件失败')
+					reject()
+					return filePath
+				}
+		    },
+			fail: (res) => {
+				console.log(res)
+				reject()
+				return filePath
+			}
+		})
+	}
 }
