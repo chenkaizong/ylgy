@@ -29,9 +29,12 @@
 		      const promises = imageUrls.map(url => {
 		        return new Promise((resolve, reject) => {
 					// #ifdef APP-PLUS
-					this.$util.getImageCache(env.VUE_APP_STATIC_URL + url,resolve,reject)
+					//直接读取包里面的图片
+					resolve() 
+					// 远程读取图片
+					// this.$util.getImageCache(env.VUE_APP_STATIC_URL + url,resolve,reject)
+					return ;
 					// #endif
-					// #ifdef H5
 					uni.getImageInfo({
 						src:env.VUE_APP_STATIC_URL + url,
 						success:()=>{
@@ -40,8 +43,6 @@
 						},
 						fail:()=>reject()
 					})
-					// #endif
-
 		        });
 		      });
 		
