@@ -20,7 +20,7 @@
 			}
 		},
 		onLoad() {
-
+			
 		},
 		methods: {
 			onClickGame(){

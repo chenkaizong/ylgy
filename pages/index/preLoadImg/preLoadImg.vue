@@ -63,6 +63,9 @@
 		  mounted() {
 			  this.percentage = 0
 			  let imgList = require('../../'+this.name+'/preload.json');
+			  uni.preloadPage({
+			  	url:"/pages/"+this.name+"/"+this.name
+			  })
 			  this.preloadImages(imgList);
 			  
 			
