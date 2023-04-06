@@ -1,26 +1,26 @@
 <template>
-	<view class="glass">
-		<Glass1 :width="6" class="animate position1"></Glass1>
-		<Glass5 :width="9" class="animate position2"></Glass5>
-		<Glass1 :width="6" class="animate position3"></Glass1>
-		<Glass5 :width="9" class="animate position4"></Glass5>
-		<Glass1 :width="6" class="animate position5"></Glass1>
-		<Glass5 :width="9" class="animate position6"></Glass5>
-		<Glass1 :width="6" class="animate position7"></Glass1>
-		<Glass5 :width="9" class="animate position8"></Glass5>
-		<Glass5 :width="9" class="animate position9"></Glass5>
-		<Glass1 :width="6" class="animate position10"></Glass1>
+	<view class="grass">
+		<Grass1 :width="6" class="animate position1"></Grass1>
+		<Grass5 :width="9" class="animate position2"></Grass5>
+		<Grass1 :width="6" class="animate position3"></Grass1>
+		<Grass5 :width="9" class="animate position4"></Grass5>
+		<Grass1 :width="6" class="animate position5"></Grass1>
+		<Grass5 :width="9" class="animate position6"></Grass5>
+		<Grass1 :width="6" class="animate position7"></Grass1>
+		<Grass5 :width="9" class="animate position8"></Grass5>
+		<Grass5 :width="9" class="animate position9"></Grass5>
+		<Grass1 :width="6" class="animate position10"></Grass1>
 	</view>
 </template>
 
 <script>
-	import Glass1 from "../png/Glass1.vue"
-	import Glass5 from "../png/Glass5.vue"
+	import Grass1 from "../png/Grass1.vue"
+	import Grass5 from "../png/Grass5.vue"
 	
 	
 	export default{
-		name:"glass-background",
-		components:{Glass1,Glass5},
+		name:"grass-background",
+		components:{Grass1,Grass5},
 		data(){
 			return {
 				
@@ -46,7 +46,7 @@
 		position: absolute;
 	}
 	
-	.glass{
+	.grass{
 		position: absolute;
 		height: 100%;
 		width: 100%;

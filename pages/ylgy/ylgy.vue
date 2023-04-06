@@ -1,6 +1,6 @@
 <template>
 	<view class="pageBox">
-		<GlassBackground></GlassBackground>
+		<GrassBackground></GrassBackground>
 		<view class="content">
 			<!-- <view class="header">
 				<view class="iconfont icon-personal_icon_set_up" @click="$refs.setUp.open()"> </view>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import GlassBackground from "./container/glass/glass.vue"
+	import GrassBackground from "./container/grass/grass.vue"
 	import SuccessSimple from './container/success-simple/success-simple.vue'
 	import Game from "./container/game/game.vue"
 	import Func from "./func.js"
@@ -30,7 +30,7 @@
 		components:{
 			SuccessSimple,
 			Game,
-			GlassBackground,
+			GrassBackground,
 		},
 		data() {
 			return {

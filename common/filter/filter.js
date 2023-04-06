@@ -34,14 +34,5 @@ Vue.filter('numberHideFormat', (value, start = 1, end = 1) => {
 })
 
 Vue.filter('static_url', (value) => {
-	// return env.VUE_APP_STATIC_URL + value;
-	let theme = store.getters.skin;
-	let url;
-	if(typeof env.VUE_APP_STATIC_URLS[theme] =='undefined'){
-		url = env.VUE_APP_STATIC_URLS.default;
-	}else{
-		url = env.VUE_APP_STATIC_URLS[theme];
-	}
-
-	return url+value;
+	return env.VUE_APP_STATIC_URL + value;
 })

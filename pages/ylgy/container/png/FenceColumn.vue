@@ -1,6 +1,6 @@
 <template>
 	<view :style="boxStyle">
-		<image v-if="parentImage.width" src="@/static/ylgy/bottom.png" :style="imageStyle"></image>
+		<image v-if="parentImage.width" :src="'/ylgy/bottom.png'|static_url" :style="imageStyle"></image>
 	</view>
 </template>
 

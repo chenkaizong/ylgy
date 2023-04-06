@@ -1,11 +1,11 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
+		<!-- <image class="logo" src="/static/logo.png"></image> -->
 		<view class="action-area">
-			<u-button type="primary" @click="$navTo('/pages/ylgy/ylgy')">游戏开始</u-button>
+			<u-button type="primary" @click="onClickGame">游戏开始</u-button>
 		</view>
 		<view class="preload" v-if="game">
-			<PreLoadingImg name="game"></PreLoadingImg>
+			<PreLoadingImg :name="game" @onLoaded="afterPreLoaded"></PreLoadingImg>
 		</view>
 	</view>
 </template>
@@ -16,14 +16,19 @@
 		components:{PreLoadingImg},
 		data() {
 			return {
-				game:"ylgy"
+				game:""
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-			
+			onClickGame(){
+				this.game = "ylgy"
+			},
+			afterPreLoaded(){
+				this.$navTo('/pages/ylgy/ylgy')
+			}
 		}
 	}
 </script>

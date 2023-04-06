@@ -1,6 +1,8 @@
 <template>
 	<view class="loading">
-		<u-line-progress :percentage="percentage" :showText="false"></u-line-progress>
+		<u-line-progress :percentage="percentage" activeColor="red">
+			
+		</u-line-progress>
 	</view>
 </template>
 
@@ -28,18 +30,19 @@
 		        return new Promise((resolve, reject) => {
 		          const img = new Image();
 		          img.onload = () => {
-					  this.percentage = Math.floor(this.percentage+1/imageUrls.length)
+					  this.percentage = Math.floor(this.percentage+100/imageUrls.length)
+					  
 					  resolve()
 					};
 		          img.onerror = () => reject();
-		          img.src =  env + url;
+		          img.src =  env.VUE_APP_STATIC_URL + url;
 		        });
 		      });
 		
 		      Promise.all(promises)
 		        .then(() => {
 		          this.percentage = 100;
-				  this.$emit("onPreload")
+				  this.$emit("onLoaded")
 		        })
 		        .catch(() => {
 		          console.error("Error occurred while loading images");
@@ -48,7 +51,7 @@
 		  },
 		  mounted() {
 			  this.percentage = 0
-			  let imgList = require('../../'+this.name+'/loading.json');
+			  let imgList = require('../../'+this.name+'/preload.json');
 			  this.preloadImages(imgList);
 			  
 			

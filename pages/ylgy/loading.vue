@@ -9,7 +9,7 @@
 		data() {
 			return {
 				imgList:[
-					"/static/ylgy/glass.png",
+					"/static/ylgy/grass.png",
 					"/static/ylgy/bottom.png",
 					"/static/ylgy/item.png",
 				]

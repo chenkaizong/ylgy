@@ -3,7 +3,7 @@ module.exports = {
 	// 接口URL
 	VUE_APP_BASE_API: '',
 	// 静态文件URl
-	VUE_APP_STATIC_URL: 'http://ylgy.chenkaizong.cn',
+	VUE_APP_STATIC_URL: 'http://static.chenkaizong.cn',
 	//header domain
 	VUE_DOMAIN: '',
 	//缓存名前缀

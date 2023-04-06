@@ -1,11 +1,11 @@
 <template>
 	<view class="item">
 		<view  class="background">
-			<image :class="backgroundClass" src="@/static/ylgy/item.png" ></image>
+			<image :class="backgroundClass" :src="'/ylgy/item.png'|static_url" ></image>
 		</view>
 
 		<view class="pic">
-			<image :class="picClass" src="@/static/ylgy/item.png" ></image>
+			<image :class="picClass" :src="'/ylgy/item.png'|static_url" ></image>
 		</view>
 	</view>
 	
