@@ -1,6 +1,6 @@
 <template>
 	<view class="loading">
-		<u-line-progress :percentage="percentage" activeColor="red">
+		<u-line-progress :percentage="percentage" activeColor="red" :height="10">
 			
 		</u-line-progress>
 	</view>
@@ -42,7 +42,10 @@
 		      Promise.all(promises)
 		        .then(() => {
 		          this.percentage = 100;
-				  this.$emit("onLoaded")
+				  setTimeout(()=>{
+					  this.$emit("onLoaded")
+				  },500)
+				  
 		        })
 		        .catch(() => {
 		          console.error("Error occurred while loading images");

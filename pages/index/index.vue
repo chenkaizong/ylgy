@@ -1,11 +1,11 @@
 <template>
 	<view class="content">
-		<!-- <image class="logo" src="/static/logo.png"></image> -->
+		<image class="logo" src="/static/logo.png"></image>
 		<view class="action-area">
-			<u-button type="primary" @click="onClickGame">游戏开始</u-button>
+			<u-button type="primary" @click="onClickGame">开始</u-button>
 		</view>
-		<view class="preload" v-if="game">
-			<PreLoadingImg :name="game" @onLoaded="afterPreLoaded"></PreLoadingImg>
+		<view class="preload" >
+			<PreLoadingImg v-if="game" :name="game" @onLoaded="afterPreLoaded"></PreLoadingImg>
 		</view>
 	</view>
 </template>
@@ -27,6 +27,8 @@
 				this.game = "ylgy"
 			},
 			afterPreLoaded(){
+				console.log("成功")
+				this.game = ""
 				this.$navTo('/pages/ylgy/ylgy')
 			}
 		}
@@ -55,7 +57,6 @@
 	.preload{
 		height: 30rpx;
 		width: 300rpx;
-		border: 1px solid black;
 	}
 
 </style>
