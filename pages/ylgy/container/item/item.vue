@@ -27,7 +27,7 @@
 		
 		watch:{
 			zIndex(val){
-				console.log(val)
+				// console.log(val)
 				this.zIndexStyle = {zIndex:val+100}
 			}
 		},

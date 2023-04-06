@@ -49,10 +49,7 @@
 					this.$util.alert('分享加次数')
 					this.moveOutCount++
 				}else if(this.moveOutCount==1){
-					console.log("使用次数")	
-					console.log(this.$emit('onMoveOut'),null,(res)=>{
-						res && this.moveOutCount++
-					})
+					this.$emit('onMoveOut')
 				}
 
 			},

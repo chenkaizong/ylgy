@@ -8,7 +8,6 @@ export const ylgyOption ={
 ylgyOption.itemWidth = ylgyOption.itemX*ylgyOption.precision
 ylgyOption.mapWidth = ylgyOption.mapX*ylgyOption.precision
 
-console.log(ylgyOption)
 
 function array_unshift(arr,val){
 	if(typeof(arr)=='undefined'){

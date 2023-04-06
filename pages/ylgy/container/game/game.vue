@@ -21,7 +21,7 @@
 			<view class="selectedBar">
 				
 			</view>
-			<Cheat @onMoveOut="onMoveOut" @onMoveBack="onMoveBack" @onRandMap="onRandMap"></Cheat>
+			<Cheat ref="cheat" @onMoveOut="onMoveOut" @onMoveBack="onMoveBack" @onRandMap="onRandMap"></Cheat>
 		</view>
 		
 		
@@ -240,11 +240,11 @@
 
 			//移出三个到额外的位置
 			onMoveOut:function(){
-				console.log(Func)
 				if(this.SelectedList.length<3){
 					this.$util.alert("要满足三个哦")
 					return 
 				}
+				// 移动到目标位置，
 				let  max = Func.maxZIndex(this.list);
 				for(let i=2;i>=0;i--){
 					let item = this.SelectedList.pop();
@@ -252,11 +252,9 @@
 					this.$set(this.list[item.index],'zIndex',max+i)
 					this.$set(this.list[item.index],'style',this.CheatStyles[i])
 					Func.unShiftViewStack(this.view_stack,i*20,65,item["index"])
-					
-					console.log(this.list[item.index])
+					// console.log(this.list[item.index])
 				}
 				
-				console.log(Func)
 				this.list.filter((item)=>{
 					return !item.isclicked && item.isTop
 				}).forEach((item)=>{
@@ -264,6 +262,7 @@
 				})
 				
 				this.checkViewStack()
+				this.$refs.cheat.moveOutCount++
 				
 			},
 			// 返回上一步点击
@@ -298,11 +297,11 @@
 						!item.isclicked && item.isTop && this.$set(this.list[item.index],"isTop",false)
 					})
 					this.checkViewStack()
+					this.$refs.cheat.moveBackCount++
 				}else{
 					this.$util.alert("没有可以退回的")
 				}
 				
-				return true;
 			},
 			// 随机所有图片
 			onRandMap(){
@@ -328,7 +327,7 @@
 				this.view_stack = view_stack
 				this.checkViewStack()
 				
-				return true;
+				this.$refs.cheat.randMapCount++
 				
 			},
 
